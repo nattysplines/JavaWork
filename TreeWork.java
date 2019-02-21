@@ -1,22 +1,24 @@
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.LinkedList;
+import java.util.HashMap;
 
 public class TreeWork {
     /**
-     *
+     * The first element is the parent, and the remaining elements are children
+     * I have put them in this order because of the way I wrote the tree creator
+     * It creates the node, inserts into an array, 
      */
-
     private static final String[][] STRINGS = { { "MEX", "OAX", "PUEB" }, { "USA", "CA", "NV", "MD" },
             { "SA", "BRZ", "ARG", "COL" }, { "NA", "USA", "CAN", "MEX" }, { "Earth", "NA", "SA" } };
 
     public static void main(String[] args) {
 
-        Node root = rootOfTree();
-        Node node1 = findNode(root, "MEX");
-        Node node2 = findNode(root, "USA");
+        Node root = createTree();
+        Node node1 = findNode(root, "PUEB");
+        Node node2 = findNode(root, "NV");
 
-        Node ancestor = closestCommonAncestory(node1, node2);
+        Node ancestor = closestCommonAncestor(node1, node2);
 
         System.out.println("Closest common ancestor of " + node1.data + " & " + node2.data + " is " + ancestor.data + ".");
 
@@ -41,7 +43,7 @@ public class TreeWork {
         return node;
     }
 
-    static Node closestCommonAncestory(Node a, Node b) {
+    static Node closestCommonAncestor(Node a, Node b) {
         int diff = depth(a) - depth(b);
         Node first = diff > 0 ? b : a;
         Node second = diff > 0 ? a : b;
@@ -81,9 +83,9 @@ public class TreeWork {
 
     }
 
-    static Node rootOfTree() {
+    static Node createTree() {
 
-        ArrayList<Node> nodes = new ArrayList<Node>();
+        HashMap<String, Node> nodes = new HashMap<String, Node>();
         for (String[] arr : STRINGS) {
             Node current = new Node();
             for (int i = 0; i < arr.length; i++)  {
@@ -91,21 +93,18 @@ public class TreeWork {
                     current.data = arr[i];
                 } else {
                     Node childNode = new Node();
-                    for(Node node : nodes) {
-                        if (node.data == arr[i]) {
-                            childNode = node;
-                        }
-                    }
-                    if (childNode.data == null) {
+                    if (nodes.containsKey(arr[i])) {
+                        childNode = nodes.get(arr[i]);
+                    } else {
                         childNode.data = arr[i];
                     }
                     childNode.parent = current;
                     current.children.add(childNode);
                 }
             }
-            nodes.add(current);
+            nodes.put(current.data, current);
         }
-        return nodes.get(nodes.size()-1);
+        return nodes.get(STRINGS[STRINGS.length-1][0]);
     }
 
 }
