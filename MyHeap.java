@@ -26,13 +26,7 @@ public class MyHeap {
             parent = (index % 2 == 1) ? (index - 1) / 2 : (index - 2) / 2;
         }
     }
-
-    private void swapInt(int a, int b) {
-        int temp = a;
-        a = b;
-        b = temp;
-    }
-
+    
     public static void main(String[] args) {
 
     }
