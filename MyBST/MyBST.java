@@ -3,11 +3,11 @@ public class MyBST {
     private TreeNode root;
 
     public void insert(int data) {
-        if (root == null) {
-            root = new TreeNode(data);
+        if (this.root == null) {
+            this.root = new TreeNode(data);
         } else {
-            TreeNode parent = root;
-            TreeNode current = root;
+            TreeNode parent = this.root;
+            TreeNode current = this.root;
             while (current != null) {
                 parent = current;
                 if (data > current.getData()) {
@@ -29,7 +29,7 @@ public class MyBST {
     }
 
     public TreeNode find(int data) {
-        TreeNode current = root;
+        TreeNode current = this.root;
         while (current != null) {
             if (data > current.getData()) {
                 current = current.getRight();
@@ -43,8 +43,8 @@ public class MyBST {
     }
 
     public void delete(int data) {
-        TreeNode parent = root;
-        TreeNode current = root;
+        TreeNode parent = this.root;
+        TreeNode current = this.root;
         boolean isLeft = false;
 
         //Find the node
@@ -67,8 +67,8 @@ public class MyBST {
 
         //If node is a leaf, easy to delete
         if (current.getLeft() == null && current.getRight() == null) {
-            if (current == root) {
-                root = null;
+            if (current == this.root) {
+                this.root = null;
             } else {
                 if (isLeft) {
                     parent.setLeft(null);
@@ -78,8 +78,8 @@ public class MyBST {
             }
         //If node has left branch, easy    
         } else if (current.getRight() == null) {
-            if (current == root) {
-                root = current.getLeft();
+            if (current == this.root) {
+                this.root = current.getLeft();
             } else {
                 if (isLeft) {
                     parent.setLeft(current.getLeft());
@@ -89,8 +89,8 @@ public class MyBST {
             }
         //If node has right branch, easy    
         } else if (current.getLeft() == null) {
-            if (current == root) {
-                root = current.getRight();
+            if (current == this.root) {
+                this.root = current.getRight();
             } else {
                 if (isLeft) {
                     parent.setLeft(current.getRight());
@@ -106,7 +106,7 @@ public class MyBST {
         */
         } else {
             //Root
-            if (current == root) {
+            if (current == this.root) {
                 current = current.getRight();
                 boolean movedLeft = false;
                 while (current.getLeft() != null) {
@@ -120,11 +120,11 @@ public class MyBST {
                         parent.setLeft(current.getRight());
                     else
                         parent.setLeft(null);
-                    current.setRight(root.getRight());
+                    current.setRight(this.root.getRight());
                 }
                 //No left travel
-                current.setLeft(root.getLeft());                
-                root = parent = current;
+                current.setLeft(this.root.getLeft());                
+                this.root = parent = current;
             } else {
                 //Non-root left case
                 if (isLeft) {
@@ -180,7 +180,7 @@ public class MyBST {
     }
 
     public void printSortedTree() {
-        printSortedTree(root);
+        printSortedTree(this.root);
     }
 
     private void printSortedTree(TreeNode node) {
@@ -193,8 +193,8 @@ public class MyBST {
     }
 
     public int minValue() {
-        if (root != null)
-            return minValue(root);
+        if (this.root != null)
+            return minValue(this.root);
         return -1;
     }
 
@@ -208,8 +208,8 @@ public class MyBST {
     }
 
     public int maxValue() {
-        if (root != null)
-            return maxValue(root);
+        if (this.root != null)
+            return maxValue(this.root);
         return -1;
     }
 
