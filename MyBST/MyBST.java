@@ -179,17 +179,47 @@ public class MyBST {
         }
     }
 
-    public void printTree() {
-        printTree(root);
+    public void printSortedTree() {
+        printSortedTree(root);
     }
 
-    private void printTree(TreeNode node) {
+    private void printSortedTree(TreeNode node) {
         if (node == null) {
             return;
         }
-        printTree(node.getLeft());
+        printSortedTree(node.getLeft());
         System.out.println(node.getData());
-        printTree(node.getRight());
+        printSortedTree(node.getRight());
+    }
+
+    public int minValue() {
+        if (root != null)
+            return minValue(root);
+        return -1;
+    }
+
+    private int minValue(TreeNode node) {
+        if (node.getLeft() == null) {
+            return node.getData();
+        } else {
+            minValue(node.getLeft());
+        }
+        return node.getData();
+    }
+
+    public int maxValue() {
+        if (root != null)
+            return maxValue(root);
+        return -1;
+    }
+
+    private int maxValue(TreeNode node) {
+        if (node.getRight() == null) {
+            return node.getData();
+        } else {
+            minValue(node.getLeft());
+        }
+        return node.getData();
     }
 
 }

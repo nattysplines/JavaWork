@@ -19,7 +19,7 @@ public class BSTTest {
 
         tree.delete(10);
 
-        tree.printTree();
+        tree.printSortedTree();
 
     }
 }
