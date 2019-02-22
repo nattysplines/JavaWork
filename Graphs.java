@@ -29,6 +29,22 @@ public class Graphs {
         
         Dijkstra(graph, 2, 6);
 
+        AdjListGraph graph2 = new AdjListGraph(8);
+        graph2.addDirectedEdge(0, 1, 1);
+        graph2.addDirectedEdge(0, 2, 2);
+        graph2.addDirectedEdge(0, 3, 5);
+        graph2.addDirectedEdge(1, 4, 4);
+        graph2.addDirectedEdge(1, 5, 11);
+        graph2.addDirectedEdge(2, 4, 9);
+        graph2.addDirectedEdge(2, 5, 5);
+        graph2.addDirectedEdge(2, 6, 16);
+        graph2.addDirectedEdge(3, 6, 2);
+        graph2.addDirectedEdge(4, 7, 18);
+        graph2.addDirectedEdge(5, 7, 13);
+        graph2.addDirectedEdge(6, 7, 2);
+
+        Dijkstra(graph2, 0, 7);
+
         // System.out.println(graph);
     }
 
@@ -79,7 +95,7 @@ public class Graphs {
                 // Since there is no decrease_priority for Java PQ
                 // I am just populating queue with possible duplicate nodes
                 // and breaking when the target is reached
-                // unfortunately, if the target is not in the graph, this
+                // unfortunately, if the target is not reachable from source, this
                 // implementation will loop forever... =(
                 if (alt < dist[v.nodeId]) {
                     dist[v.nodeId] = alt;
