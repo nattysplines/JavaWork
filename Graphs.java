@@ -76,8 +76,10 @@ public class Graphs {
                 // 20                 prev[v] <- u
                 // 21                 Q.decrease_priority(v, alt)
                 // Since there is no decrease_priority for Java PQ
-                // I am just adding it back and it will be in front
-                // Of other nodes
+                // I am just populating queue with possible duplicate nodes
+                // And breaking when the target is reached
+                // Unfortunately, if the target is not in the graph, this
+                // Implementation will loop forever... =(
                 if (alt < dist[v.nodeId]) {
                     dist[v.nodeId] = alt;
                     prev[v.nodeId] = u.nodeId;
@@ -155,7 +157,7 @@ class AdjListGraph {
     public void addDirectedEdge(int start, int end, int distance) {
         adjList[start].add(new Edge(end, distance));
     }
-    
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
