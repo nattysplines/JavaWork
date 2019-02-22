@@ -35,10 +35,12 @@ public class MyHeap {
             System.out.println("Heap is empty!");
             return -1;
         } else {
+            System.out.println("Before remove: " + this.showArray());
             int result = this.heapArray[0];
             this.heapArray[0] = this.heapArray[this.currentPosition--];
-            this.heapArray[currentPosition+1] = Integer.MAX_VALUE;
+            this.heapArray[this.currentPosition + 1] = 0;
             percDown(0);
+            System.out.println("After remove: " + this.showArray());
             return result;
         }
     }
@@ -46,23 +48,47 @@ public class MyHeap {
     private void percDown(int index) {
         int left = 2 * index + 1;
         int right = 2 * index + 2;
-        while (index < this.heapArray.length - 1 && (this.heapArray[left] <= this.heapArray[this.currentPosition] || this.heapArray[right] <= this.heapArray[this.currentPosition])) {
-            if (left < this.heapArray.length - 1 && right < this.heapArray.length - 1 && this.heapArray[left] <= this.heapArray[this.currentPosition] && this.heapArray[right] <= this.heapArray[this.currentPosition] ) {
-                int choice = (this.heapArray[left] - this.heapArray[right] > 0) ? left : right;
-                int temp = this.heapArray[index];
-                this.heapArray[index] = this.heapArray[choice];
-                this.heapArray[choice] = temp;
-                index = choice;
-            } else if (left < this.heapArray.length - 1 && this.heapArray[left] <= this.heapArray[this.currentPosition]) {
-                int temp = this.heapArray[index];
-                this.heapArray[index] = this.heapArray[left];
-                this.heapArray[left] = temp;
-                index = left;
-            } else if (right < this.heapArray.length - 1 && this.heapArray[right] <= this.heapArray[this.currentPosition]) {
-                int temp = this.heapArray[index];
-                this.heapArray[index] = this.heapArray[right];
-                this.heapArray[right] = temp;
-                index = right;
+
+        while (left <= this.currentPosition || right <= this.currentPosition) {
+            if (left <= this.currentPosition && right <= this.currentPosition) {
+                if (this.heapArray[left] <= this.heapArray[index]
+                        && this.heapArray[right] <= this.heapArray[index]) {
+                    int choice = (this.heapArray[left] - this.heapArray[right] < 0) ? left : right;
+                    int temp = this.heapArray[index];
+                    this.heapArray[index] = this.heapArray[choice];
+                    this.heapArray[choice] = temp;
+                    index = choice;
+                } else if (this.heapArray[left] <= this.heapArray[index]) {
+                    int temp = this.heapArray[index];
+                    this.heapArray[index] = this.heapArray[left];
+                    this.heapArray[left] = temp;
+                    index = left;
+                } else if (this.heapArray[right] <= this.heapArray[index]) {
+                    int temp = this.heapArray[index];
+                    this.heapArray[index] = this.heapArray[right];
+                    this.heapArray[right] = temp;
+                    index = right;
+                } else {
+                    index = this.currentPosition;
+                }
+            } else if (left <= this.currentPosition) {
+                if (this.heapArray[left] <= this.heapArray[index]) {
+                    int temp = this.heapArray[index];
+                    this.heapArray[index] = this.heapArray[left];
+                    this.heapArray[left] = temp;
+                    index = left;
+                } else {
+                    index = this.currentPosition;
+                }
+            } else if (right <= this.currentPosition) {
+                if (this.heapArray[right] <= this.heapArray[index]) {
+                    int temp = this.heapArray[index];
+                    this.heapArray[index] = this.heapArray[right];
+                    this.heapArray[right] = temp;
+                    index = right;
+                } else {
+                    index = this.currentPosition;
+                }
             }
             left = 2 * index + 1;
             right = 2 * index + 2;
@@ -90,16 +116,21 @@ public class MyHeap {
         heap.insert(17);
         heap.insert(2);
         heap.insert(4);
-        heap.insert(13);
 
-        System.out.println(heap.showArray());
-        
-        System.out.println(heap.remove());
-        
-        System.out.println(heap.showArray());
-        // System.out.println(heap.remove());
-        // System.out.println(heap.remove());
-        // System.out.println(heap.remove());
+        heap.remove();
+        System.out.println();
+        heap.remove();
+        System.out.println();
+        heap.remove();
+        System.out.println();
+        heap.remove();
+        System.out.println();
+        heap.remove();
+        System.out.println();
+        heap.remove();
+        System.out.println();
+        heap.remove();
+
 
     }
 
