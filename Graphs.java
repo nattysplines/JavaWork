@@ -97,6 +97,11 @@ class MatrixGraph {
         matrix[end][start] = 1;
     }
 
+    public void addEdge(int start, int end, int distance) {
+        matrix[start][end] = distance;
+        matrix[end][start] = distance;
+    }
+
     /**
      * @return the v
      */
