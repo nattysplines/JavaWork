@@ -62,6 +62,7 @@ public class Graphs {
         while (!queue.isEmpty()) {
             // 15         u <- Q.extract_min()                    // Remove and return best vertex
             Edge u = queue.poll();
+            //Loop break if u == target
             if (u.nodeId == target)
                 break;
 
@@ -77,9 +78,9 @@ public class Graphs {
                 // 21                 Q.decrease_priority(v, alt)
                 // Since there is no decrease_priority for Java PQ
                 // I am just populating queue with possible duplicate nodes
-                // And breaking when the target is reached
-                // Unfortunately, if the target is not in the graph, this
-                // Implementation will loop forever... =(
+                // and breaking when the target is reached
+                // unfortunately, if the target is not in the graph, this
+                // implementation will loop forever... =(
                 if (alt < dist[v.nodeId]) {
                     dist[v.nodeId] = alt;
                     prev[v.nodeId] = u.nodeId;
