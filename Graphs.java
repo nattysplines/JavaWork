@@ -1,4 +1,7 @@
 import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Stack;
+import java.util.Comparator;
 
 public class Graphs {
     
@@ -24,8 +27,93 @@ public class Graphs {
         graph.addEdge(5, 6);
         graph.addEdge(6, 7);
         
-        System.out.println(graph);
+        Dijkstra(graph, 2, 6);
+
+        // System.out.println(graph);
     }
+
+    //Following wiki pseudocode: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Description
+    public static void Dijkstra(AdjListGraph graph, int source, int target) {
+        final int V = graph.getV();
+        int[] dist = new int[V];
+        int[] prev = new int[V];
+
+        // 6      for each vertex v in Graph:           
+        // 7          if v != source
+        // 8              dist[v] <- INFINITY                 // Unknown distance from source to v
+        // 9          prev[v] <- UNDEFINED                    // Predecessor of v
+        for (int i = 0; i < V; ++i) {
+            dist[i] = Integer.MAX_VALUE;
+            prev[i] = -1;
+        }
+
+        //         dist[source] <- 0                           // Initialization
+        dist[source] = 0;
+        
+        //Using edges, since they fit the criteria, I think this works? we'll see
+        PriorityQueue<Edge> queue = new PriorityQueue<Edge>(V, distComparator);
+        
+        // 11         Q.add_with_priority(v, dist[v])
+        for (int i = 0; i < V; ++i) {
+            queue.add(new Edge(i, dist[i]));
+        }
+
+        // 14     while Q is not empty:                      // The main loop
+        while (!queue.isEmpty()) {
+            // 15         u <- Q.extract_min()                    // Remove and return best vertex
+            Edge u = queue.poll();
+            if (u.nodeId == target)
+                break;
+
+            // 16         for each neighbor v of u:              // only v that are still in Q
+            for (Edge v : graph.adjList[u.nodeId]) {
+                
+                // 17             alt <- dist[u] + length(u, v) 
+                int alt = dist[u.nodeId] + v.distance;
+
+                // 18             if alt < dist[v]
+                // 19                 dist[v] <- alt
+                // 20                 prev[v] <- u
+                // 21                 Q.decrease_priority(v, alt)
+                // Since there is no decrease_priority for Java PQ
+                // I am just adding it back and it will be in front
+                // Of other nodes
+                if (alt < dist[v.nodeId]) {
+                    dist[v.nodeId] = alt;
+                    prev[v.nodeId] = u.nodeId;
+                    queue.add(new Edge(v.nodeId, dist[v.nodeId]));
+                }
+            }
+        }
+        
+        // 1  S <- empty sequence
+        Stack<Integer> stack = new Stack<Integer>();
+
+        // 2  u <- target
+        int u = target;
+        // 3  if prev[u] is defined or u = source:          // Do something only if the vertex is reachable
+        // 4      while u is defined:                       // Construct the shortest path with a stack S
+        while (u != -1) {
+            // 5          insert u at the beginning of S        // Push the vertex onto the stack
+            stack.add(u);
+            // 6          u <- prev[u]                           // Traverse from target to source
+            u = prev[u];
+        }
+
+        System.out.print("Shortest path from " + stack.peek() + " to " + target + " is: ");
+        while (!stack.isEmpty()) {
+            System.out.print(stack.pop() + " ");
+        }
+        System.out.println("\nThe length is: " + dist[target]);
+    }
+
+    public static Comparator<Edge> distComparator = new Comparator<Edge>(){
+		
+		@Override
+		public int compare(Edge e1, Edge e2) {
+            return e1.distance - e2.distance;
+        }
+	};
 }
 
 class Edge {
@@ -60,6 +148,14 @@ class AdjListGraph {
         adjList[end].add(new Edge(start, distance));
     }
 
+    public void addDirectedEdge(int start, int end) {
+        adjList[start].add(new Edge(end, 1));
+    }
+    
+    public void addDirectedEdge(int start, int end, int distance) {
+        adjList[start].add(new Edge(end, distance));
+    }
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
